@@ -38,13 +38,34 @@ export default class YoutubePlayback extends Playback {
     }
   }
 
+  alreadyYoutubeApiScript() {
+    var scripts = document.getElementsByTagName('script')
+    var result = false
+    for (var i in scripts) {
+      if (scripts[i].src == 'https://www.youtube.com/iframe_api') {
+        result = true
+      }
+    }
+    return result
+  }
+
   embedYoutubeApiScript() {
-      var script = document.createElement('script')
-      script.setAttribute('type', 'text/javascript')
-      script.setAttribute('async', 'async')
-      script.setAttribute('src', 'https://www.youtube.com/iframe_api')
-      document.body.appendChild(script)
-      window.onYouTubeIframeAPIReady = () => this.embedYoutubePlayer()
+      if (!this.alreadyYoutubeApiScript()) {
+        var script = document.createElement('script')
+        script.setAttribute('type', 'text/javascript')
+        script.setAttribute('async', 'async')
+        script.setAttribute('src', 'https://www.youtube.com/iframe_api')
+        document.body.appendChild(script)
+        window.players = []
+      }
+      window.players.push(this)
+      window.onYouTubeIframeAPIReady = () => this.AsyncExec()
+  }
+
+  AsyncExec() {
+    for (var i in window.players) {
+      window.players[i].embedYoutubePlayer()
+    }
   }
 
   embedYoutubePlayer() {

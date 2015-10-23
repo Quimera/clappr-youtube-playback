@@ -6,7 +6,7 @@
   <script type="text/javascript" charset="utf-8" src="./dist/youtube.js"></script>
   <title>youtube-playback Test Page</title>
   <script type="text/javascript" charset="utf-8">
-window.onload = function() {
+window.addEventListener("load",function() {
   var player = new Clappr.Player({
     sources: ['https://www.youtube.com/watch?v=YE7VzlLtp-4'],
     poster: 'https://i.ytimg.com/vi/nfWlot6h_JM/hqdefault.jpg',
@@ -16,11 +16,26 @@ window.onload = function() {
       playback: [YoutubePlayback]
     }
   });
-}
+}, false);
+  </script>
+  <script type="text/javascript" charset="utf-8">
+window.addEventListener("load",function() {
+  var player = new Clappr.Player({
+    sources: ['https://www.youtube.com/watch?v=1XZGulDxz9o'],
+    poster: 'http://i.ytimg.com/vi/OHOpb2fS-cM/0.jpg',
+    parentId: '#player-wrapper2',
+    youtubeShowRelated: true,
+    plugins: {
+      playback: [YoutubePlayback]
+    }
+  });
+}, false);
   </script>
 </head>
 <body>
   <div id="player-wrapper">
+  </div>
+  <div id="player-wrapper2">
   </div>
 </body>
 </html>
