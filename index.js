@@ -1,10 +1,9 @@
 import {Playback, Mediator, Events} from 'clappr'
 import YoutubeHTML from './youtube.html'
 import template from './template.js'
-import style from './style.css'
 
 export default class YoutubePlayback extends Playback {
-  get name() { return 'youtube_playback' }
+  get name() { return 'youtube' }
 
   get template_gen() { 
     return template(YoutubeHTML) 
@@ -41,21 +40,20 @@ export default class YoutubePlayback extends Playback {
   alreadyYoutubeApiScript() {
     var scripts = document.getElementsByTagName('script')
     var result = false
-    for (var i in scripts) {
-      if (scripts[i].src == 'https://www.youtube.com/iframe_api') {
-        result = true
-      }
+    for (var i = scripts.length; i--;) {
+        if (scripts[i].src == 'https://www.youtube.com/iframe_api') return true;
     }
+
     return result
   }
 
   embedYoutubeApiScript() {
       if (!this.alreadyYoutubeApiScript()) {
         var script = document.createElement('script')
-        script.setAttribute('type', 'text/javascript')
-        script.setAttribute('async', 'async')
-        script.setAttribute('src', 'https://www.youtube.com/iframe_api')
-        document.body.appendChild(script)
+        script.async = 'async'
+        script.src = 'https://www.youtube.com/iframe_api'
+        var firstScriptTag = document.getElementsByTagName('script')[0]
+        firstScriptTag.parentNode.insertBefore(script, firstScriptTag)
         window.players = []
       }
       window.players.push(this)
@@ -193,8 +191,6 @@ export default class YoutubePlayback extends Playback {
   render() {
     var templateOptions = {id: 'yt'+this.cid}
     this.$el.html(this.template_gen(templateOptions))
-    var style = $('<style>').html(style)
-    this.$el.append(style)
     this.setupYoutubePlayer()
     return this;
   }
