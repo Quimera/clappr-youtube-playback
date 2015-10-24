@@ -54,15 +54,15 @@ export default class YoutubePlayback extends Playback {
         script.src = 'https://www.youtube.com/iframe_api'
         var firstScriptTag = document.getElementsByTagName('script')[0]
         firstScriptTag.parentNode.insertBefore(script, firstScriptTag)
-        window.players = []
+        window.ytplayers = []
       }
-      window.players.push(this)
+      window.ytplayers.push(this)
       window.onYouTubeIframeAPIReady = () => this.AsyncExec()
   }
 
   AsyncExec() {
-    for (var i in window.players) {
-      window.players[i].embedYoutubePlayer()
+    for (var i in window.ytplayers) {
+      window.ytplayers[i].embedYoutubePlayer()
     }
   }
 
